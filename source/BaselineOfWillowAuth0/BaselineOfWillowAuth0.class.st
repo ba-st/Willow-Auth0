@@ -43,4 +43,10 @@ BaselineOfWillowAuth0 >> setUpDependencies: spec [
 
 { #category : #initialization }
 BaselineOfWillowAuth0 >> setUpPackages: spec [
+
+	spec
+		package: 'Willow-Auth0' with: [ spec requires: #('Willow-Deployment') ];
+		group: 'Deployment' with: 'Willow-Auth0';
+		package: 'Willow-Auth0-Tests' with: [ spec requires: #('Willow-Auth0' 'Willow-Tests') ];
+		group: 'Tests' with: 'Willow-Auth0-Tests'
 ]
