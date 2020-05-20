@@ -29,6 +29,15 @@ WillowAuth0DemoTest >> createHandlers [
 	^ Array with: registry with: session
 ]
 
+{ #category : #running }
+WillowAuth0DemoTest >> setUp [
+
+	super setUp.
+	OSEnvironment current at: 'WA0_CLIENT_SECRET' ifAbsentPut: [ 'secret' ].
+	OSEnvironment current at: 'WA0_DOMAIN' ifAbsentPut: [ 'example.auth0.com' ].
+	OSEnvironment current at: 'WA0_CLIENT_ID' ifAbsentPut: [ 'id' ]
+]
+
 { #category : #tests }
 WillowAuth0DemoTest >> testInitialRequest [
 
