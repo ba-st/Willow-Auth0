@@ -82,9 +82,7 @@ WillowAuth0Demo class >> materializeAndCheckSignatureOfJsonWebToken: tokenString
 WillowAuth0Demo class >> start [
 
 	<ignoreForCoverage>
-	self registerAsDevelopmentApplication filter configuration
-		at: #exceptionHandler
-		put: WADebugErrorHandler.
+	self registerAsDevelopmentApplication.
 	( ZnZincServerAdaptor port: 3000 )
 		codec: GRPharoUtf8Codec new;
 		start
