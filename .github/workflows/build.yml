@@ -12,6 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ba-st-actions/setup-smalltalkCI@v1.0.0
+        env:
+          WA0_DOMAIN: example-tenant.auth0.com
+          WA0_CLIENT_ID: example-id
+          WA0_CLIENT_SECRET: example-secret
         with:
           smalltalk-version: ${{ matrix.smalltalk }}
       - run: smalltalkci -s ${{ matrix.smalltalk }}

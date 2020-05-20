@@ -19,8 +19,6 @@
 [![Pharo 8.0](https://img.shields.io/badge/Pharo-8.0-informational)](https://pharo.org)
 
 
-Why would I care about this thing? When to use it? For whom is it designed? When not to use it?
-
 ## License
 
 - The code is licensed under [MIT](LICENSE).
@@ -28,9 +26,9 @@ Why would I care about this thing? When to use it? For whom is it designed? When
 
 ## Quick Start
 
-- Download the latest [Pharo 32](https://get.pharo.org/) or [64 bits VM](https://get.pharo.org/64/).
-- Download a ready to use image from the [release page](https://github.com/ba-st/Willow-Auth0/releases/latest)
-- Explore the [documentation](docs/)
+- Download the latest [Pharo 32](https://get.pharo.org/) or [64 bits VM](https://get.pharo.org/64/) and image.
+- Load the project in the image.
+- Explore the [documentation](docs/) and try the demo.
 
 ## Installation
 
