@@ -41,8 +41,10 @@ WillowApplicationAuthenticatedByAuth0UniversalLogin class >> clientId [
 { #category : #private }
 WillowApplicationAuthenticatedByAuth0UniversalLogin class >> jsonWebTokenSignatureAlgorithm [
 
-	"You can copy it from Auth0 Dashboard -> Applications -> Your app -> Advanced Settings -> OAuth ->  JsonWebToken Signature Algorithm
-	and use JsonWebAlgorithm named: 'algorithm name' with the copied value"
+	"You can copy it from Auth0 Dashboard -> Applications -> Your app -> 
+	Advanced Settings -> OAuth ->  JsonWebToken Signature Algorithm and use 
+		JsonWebAlgorithm named: 'algorithm name'
+	 with the copied value"
 
 	^ self subclassResponsibility
 ]
@@ -78,8 +80,8 @@ WillowApplicationAuthenticatedByAuth0UniversalLogin class >> materializeAndCheck
 WillowApplicationAuthenticatedByAuth0UniversalLogin class >> newAuthenticationFilter [
 
 	^ Auth0UniversalLoginAuthenticationFilter
-		withDomain: self authenticationDomain
-		clientId: self clientId
+		at: self authenticationDomain
+		for: self clientId
 		redirectingTo: self authenticationCallbackURL
 		nonceProvidedBy: self nonceProvider
 		JWSProvidedBy: [ :token :invalidAction | 

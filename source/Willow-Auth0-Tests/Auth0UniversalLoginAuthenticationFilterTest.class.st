@@ -119,8 +119,8 @@ Auth0UniversalLoginAuthenticationFilterTest >> setUp [
 	super setUp.
 	count := 0.
 	filter := Auth0UniversalLoginAuthenticationFilter
-		withDomain: self domain
-		clientId: self clientId
+		at: self domain
+		for: self clientId
 		redirectingTo: self callbackURI
 		nonceProvidedBy: [ count := count + 1. count ]
 		JWSProvidedBy: [ :token :invalidAction | 

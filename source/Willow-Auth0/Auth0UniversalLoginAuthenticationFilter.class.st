@@ -18,11 +18,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-Auth0UniversalLoginAuthenticationFilter class >> withDomain: aDomain clientId: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
+Auth0UniversalLoginAuthenticationFilter class >> at: aDomain for: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
 
 	^ self new
-		initializeWithDomain: aDomain
-		clientId: aClientId
+		initializeAt: aDomain
+		for: aClientId
 		redirectingTo: aRedirectionURI
 		nonceProvidedBy: aBlock
 		JWSProvidedBy: aDyadicBlock
@@ -62,7 +62,7 @@ Auth0UniversalLoginAuthenticationFilter >> handlePost: aRequestContext [
 ]
 
 { #category : #initialization }
-Auth0UniversalLoginAuthenticationFilter >> initializeWithDomain: aDomain clientId: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
+Auth0UniversalLoginAuthenticationFilter >> initializeAt: aDomain for: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
 
 	knownStates := Dictionary new.
 	knownNonces := 	OrderedCollection new.
