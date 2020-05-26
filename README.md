@@ -13,7 +13,7 @@
 </p>
 
 [![GitHub release](https://img.shields.io/github/release/ba-st/Willow-Auth0.svg)](https://github.com/ba-st/Willow-Auth0/releases/latest)
-[![Build Status](https://github.com/ba-st/Willow-Auth0/workflows/Build/badge.svg?branch=<DEFAULT_BRANCH)](https://github.com/ba-st/Willow-Auth0/actions?query=workflow%3ABuild)
+[![Build Status](https://github.com/ba-st/Willow-Auth0/workflows/Build/badge.svg?branch=release-candidate)](https://github.com/ba-st/Willow-Auth0/actions?query=workflow%3ABuild)
 [![Coverage Status](https://codecov.io/github/ba-st/Willow-Auth0/coverage.svg?branch=release-candidate)](https://codecov.io/gh/ba-st/Willow-Auth0/branch/release-candidate)
 [![Pharo 7.0](https://img.shields.io/badge/Pharo-7.0-informational)](https://pharo.org)
 [![Pharo 8.0](https://img.shields.io/badge/Pharo-8.0-informational)](https://pharo.org)
