@@ -126,3 +126,9 @@ WillowApplicationAuthenticatedByAuth0UniversalLogin >> initialRequest: request [
 			].
 	super initialRequest: request
 ]
+
+{ #category : #accessing }
+WillowApplicationAuthenticatedByAuth0UniversalLogin >> logoutUrl [
+
+	^ self class logoutUrl
+]

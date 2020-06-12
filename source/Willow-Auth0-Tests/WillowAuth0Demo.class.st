@@ -108,14 +108,15 @@ WillowAuth0Demo >> componentSupplierForApplication [
 WillowAuth0Demo >> contentView [
 
 	^ [ :html | 
-	html heading: 'Wow! You''re now logged in.'.
-	self
-		renderLogoutButtonOn: html;
-		renderUriPathOn: html;
-		renderPostFieldsOn: html;
-		renderQueryFieldsOn: html;
-		renderJWTOn: html
-	]
+		html heading: 'Wow! You''re now logged in.'.
+		self
+			renderLogoutButtonOn: html;
+			renderUriPathOn: html;
+			renderPostFieldsOn: html;
+			renderQueryFieldsOn: html;
+			renderIdTokenOn: html;
+			renderAccessTokenClaimsOn: html
+		]
 ]
 
 { #category : #hooks }
@@ -143,6 +144,21 @@ WillowAuth0Demo >> jQueryLibrary [
 ]
 
 { #category : #rendering }
+WillowAuth0Demo >> renderAccessTokenClaimsOn: html [
+
+	postFields
+		at: 'access_token'
+		ifPresent: [ :token | 
+			| jwt |
+			html heading
+				level: 2;
+				with: 'Access Token Claims'.
+			jwt := JsonWebSignature materializeCompact: token key: '' checkSignature: false.
+			self renderDictionary: jwt payload claims asDefinitionListOn: html
+			]
+]
+
+{ #category : #rendering }
 WillowAuth0Demo >> renderDictionary: aDictionary asDefinitionListOn: html [
 
 	html
@@ -156,13 +172,12 @@ WillowAuth0Demo >> renderDictionary: aDictionary asDefinitionListOn: html [
 ]
 
 { #category : #rendering }
-WillowAuth0Demo >> renderJWTOn: html [
+WillowAuth0Demo >> renderIdTokenOn: html [
 
 	postFields
 		at: 'id_token'
 		ifPresent: [ :token | 
 			| jwt |
-
 			html heading
 				level: 2;
 				with: 'JWT Claims'.

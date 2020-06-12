@@ -46,13 +46,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> createHandlers [
 	^ Array
 		with:
 			( WAApplication new
-				cache:
-					( WABulkReapingCache
-						initialSize: 13
-						maximumSize: 0
-						maximumAbsoluteAge: 0
-						maximumRelativeAge: 0
-						overflowAction: WAHashCache signalError );
+				cache: WABidirectionalCache new;
 				yourself )
 ]
 

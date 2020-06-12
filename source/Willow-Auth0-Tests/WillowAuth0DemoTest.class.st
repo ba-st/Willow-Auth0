@@ -39,6 +39,12 @@ WillowAuth0DemoTest >> setUp [
 ]
 
 { #category : #tests }
+WillowAuth0DemoTest >> testApplicationTitle [
+
+	self assert: WillowAuth0Demo applicationTitle equals: 'Willow Auth0 - Demo Application'
+]
+
+{ #category : #tests }
 WillowAuth0DemoTest >> testInitialRequest [
 
 	| response |
@@ -46,6 +52,20 @@ WillowAuth0DemoTest >> testInitialRequest [
 	response := self responseAfter: [ WillowAuth0Demo new initialRequest: self requestContext request ].
 
 	self assert: response status equals: 403
+]
+
+{ #category : #tests }
+WillowAuth0DemoTest >> testJQueryLibrary [
+
+	self assert: ( WillowAuth0Demo new jQueryLibrary isA: JQuery3OnlineLibrary )
+]
+
+{ #category : #tests }
+WillowAuth0DemoTest >> testJsonWebTokenSignatureAlgorithm [
+
+	self
+		assert: WillowAuth0Demo jsonWebTokenSignatureAlgorithm
+		equals: ( JsonWebAlgorithm named: 'HS256' )
 ]
 
 { #category : #tests }
@@ -69,6 +89,42 @@ WillowAuth0DemoTest >> testLogoutFromAuth0 [
 		assert: redirectLocation path asArray equals: #('v2' 'logout');
 		assert: ( redirectLocation queryFields at: 'client_id' ) equals: WillowAuth0Demo clientId;
 		assert: ( redirectLocation queryFields at: 'returnTo' ) equals: WillowAuth0Demo logoutReturnUrl
+]
+
+{ #category : #tests }
+WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebToken [
+
+	| token |
+
+	token := JsonWebSignature new
+		algorithmName: 'HS256';
+		payload:
+			( JWTClaimsSet new
+				sub: 'auth0|123456789';
+				yourself );
+		key: 'secret';
+		compactSerialized.
+
+	self
+		assert: ( WillowAuth0Demo materializeAndCheckSignatureOfJsonWebToken: token ) payload subject
+		equals: 'auth0|123456789'
+]
+
+{ #category : #tests }
+WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebTokenWithInvalidKey [
+
+	| token |
+
+	token := JsonWebSignature new
+		algorithmName: 'HS256';
+		payload: JWTClaimsSet new;
+		key: 'fake-secret';
+		compactSerialized.
+
+	self
+		should: [ WillowAuth0Demo materializeAndCheckSignatureOfJsonWebToken: token ]
+		raise: Error
+		withMessageText: 'signature does not match'
 ]
 
 { #category : #tests }

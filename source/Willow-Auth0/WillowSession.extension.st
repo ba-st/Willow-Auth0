@@ -4,5 +4,5 @@ Extension { #name : #WillowSession }
 WillowSession >> logoutFromAuth0: aWillowApplication [
 
 	self unregister.
-	self requestContext redirectTo: aWillowApplication class logoutUrl
+	self requestContext redirectTo: aWillowApplication logoutUrl
 ]
