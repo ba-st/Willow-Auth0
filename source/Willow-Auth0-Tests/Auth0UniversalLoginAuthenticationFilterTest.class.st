@@ -165,6 +165,81 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsR
 ]
 
 { #category : #tests }
+Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpointIgnoringNonHintQueryFields [
+
+	| response redirectLocation |
+
+	self requestContext handler addFilter: filter.
+	self requestContext request uri addField: 'unknown_hint' value: 'xxx'.
+	response := self responseAfter: [ filter handleFiltered: self requestContext ].
+
+	self assert: response status equals: 302.
+
+	redirectLocation := ( response headerAt: 'Location' ) seasideUrl.
+
+	self
+		assert: redirectLocation isSsl;
+		assert: redirectLocation host equals: self domain;
+		assert: ( redirectLocation queryFields at: 'client_id' ) equals: self clientId;
+		assert: ( redirectLocation queryFields at: 'redirect_uri' ) equals: self callbackURI;
+		assert: ( redirectLocation queryFields at: 'scope' ) equals: 'openid email profile';
+		assert: ( redirectLocation queryFields at: 'response_type' ) equals: 'token id_token';
+		assert: ( redirectLocation queryFields at: 'response_mode' ) equals: 'form_post';
+		deny: ( redirectLocation queryFields includesKey: 'unknown_hint' );
+		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
+]
+
+{ #category : #tests }
+Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpointIncludingPromptHint [
+
+	| response redirectLocation |
+
+	self requestContext handler addFilter: filter.
+	self requestContext request uri addField: 'prompt' value: 'login'.
+	response := self responseAfter: [ filter handleFiltered: self requestContext ].
+
+	self assert: response status equals: 302.
+
+	redirectLocation := ( response headerAt: 'Location' ) seasideUrl.
+
+	self
+		assert: redirectLocation isSsl;
+		assert: redirectLocation host equals: self domain;
+		assert: ( redirectLocation queryFields at: 'client_id' ) equals: self clientId;
+		assert: ( redirectLocation queryFields at: 'redirect_uri' ) equals: self callbackURI;
+		assert: ( redirectLocation queryFields at: 'scope' ) equals: 'openid email profile';
+		assert: ( redirectLocation queryFields at: 'response_type' ) equals: 'token id_token';
+		assert: ( redirectLocation queryFields at: 'response_mode' ) equals: 'form_post';
+		assert: ( redirectLocation queryFields at: 'prompt' ) equals: 'login';
+		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
+]
+
+{ #category : #tests }
+Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpointIncludingSignUpHint [
+
+	| response redirectLocation |
+
+	self requestContext handler addFilter: filter.
+	self requestContext request uri addField: 'screen_hint' value: 'signup'.
+	response := self responseAfter: [ filter handleFiltered: self requestContext ].
+
+	self assert: response status equals: 302.
+
+	redirectLocation := ( response headerAt: 'Location' ) seasideUrl.
+
+	self
+		assert: redirectLocation isSsl;
+		assert: redirectLocation host equals: self domain;
+		assert: ( redirectLocation queryFields at: 'client_id' ) equals: self clientId;
+		assert: ( redirectLocation queryFields at: 'redirect_uri' ) equals: self callbackURI;
+		assert: ( redirectLocation queryFields at: 'scope' ) equals: 'openid email profile';
+		assert: ( redirectLocation queryFields at: 'response_type' ) equals: 'token id_token';
+		assert: ( redirectLocation queryFields at: 'response_mode' ) equals: 'form_post';
+		assert: ( redirectLocation queryFields at: 'screen_hint' ) equals: 'signup';
+		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
+]
+
+{ #category : #tests }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithSeasideSessionId [
 
 	| response |

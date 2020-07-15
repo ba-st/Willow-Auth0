@@ -133,7 +133,7 @@ Auth0UniversalLoginAuthenticationFilter >> processTokenIn: aRequestContext ifInv
 { #category : #private }
 Auth0UniversalLoginAuthenticationFilter >> redirectToAuthorizeEndpoint: aRequestContext [
 
-	| authorizeEndpoint stateNonce jwtNonce|
+	| authorizeEndpoint stateNonce jwtNonce uri |
 
 	authorizeEndpoint := ( 'https://<1s>/authorize' expandMacrosWith: domain ) seasideUrl.
 	authorizeEndpoint addField: 'client_id' value: clientId.
@@ -145,8 +145,15 @@ Auth0UniversalLoginAuthenticationFilter >> redirectToAuthorizeEndpoint: aRequest
 	knownNonces add: jwtNonce.
 	authorizeEndpoint addField: 'nonce' value: jwtNonce.
 	stateNonce := self newNonce.
-	knownStates at: stateNonce put: aRequestContext request uri.
+	uri := aRequestContext request uri.
+	knownStates at: stateNonce put: uri.
 	authorizeEndpoint addField: 'state' value: stateNonce.
+	uri queryFields
+		at: 'screen_hint'
+		ifPresent: [ :hintValue | authorizeEndpoint addField: 'screen_hint' value: hintValue ].
+	uri queryFields
+		at: 'prompt'
+		ifPresent: [ :hintValue | authorizeEndpoint addField: 'prompt' value: hintValue ].
 	aRequestContext responseGenerator
 		redirectTo: authorizeEndpoint;
 		respond
