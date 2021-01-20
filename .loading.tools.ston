@@ -3,14 +3,11 @@ SmalltalkCISpec {
     SCIMetacelloLoadSpec {
       #baseline : 'WillowAuth0',
       #directory : 'source',
-      #load : [ 'CI' ],
+      #load : [ 'Tools' ],
       #platforms : [  #pharo ]
     }
   ],
   #testing : {
-    #coverage : {
-       #packages : [ 'Willow-Auth0*' ],
-      #format: #lcov
-    }
+    #failOnZeroTests : false
   }
 }
