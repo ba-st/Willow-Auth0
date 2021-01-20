@@ -20,7 +20,7 @@ BaselineOfWillowAuth0 >> baseline: spec [
 				group: 'CI' with: 'Tests';
 				group: 'Dependent-SUnit-Extensions' with: 'Willow-SUnit';
 				group: 'Tools' with: 'Willow-Tools';
-				group: 'Development' with: #('Tests' 'Tools')
+				group: 'Development' with: #('Tests')
 			]
 ]
 
@@ -52,6 +52,6 @@ BaselineOfWillowAuth0 >> setUpPackages: spec [
 	spec
 		package: 'Willow-Auth0' with: [ spec requires: #('Willow-Deployment' 'JSONWebToken-Deployment') ];
 		group: 'Deployment' with: 'Willow-Auth0';
-		package: 'Willow-Auth0-Tests' with: [ spec requires: #('Willow-Auth0' 'Willow-SUnit') ];
+		package: 'Willow-Auth0-Tests' with: [ spec requires: #('Willow-Auth0' 'Willow-Tools' 'Willow-SUnit') ];
 		group: 'Tests' with: 'Willow-Auth0-Tests'
 ]
