@@ -38,6 +38,12 @@ WillowApplicationAuthenticatedByAuth0UniversalLogin class >> clientId [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+WillowApplicationAuthenticatedByAuth0UniversalLogin class >> isAbstract [
+
+	^ self = WillowApplicationAuthenticatedByAuth0UniversalLogin
+]
+
 { #category : #private }
 WillowApplicationAuthenticatedByAuth0UniversalLogin class >> jsonWebTokenSignatureAlgorithm [
 
