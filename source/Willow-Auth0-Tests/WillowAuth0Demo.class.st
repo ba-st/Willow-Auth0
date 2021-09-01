@@ -84,7 +84,7 @@ WillowAuth0Demo class >> start [
 	<ignoreForCoverage>
 	self registerAsDevelopmentApplication.
 	( ZnZincServerAdaptor port: 3000 )
-		codec: GRPharoUtf8Codec new;
+		codec: ( GRCodec forEncoding: 'utf8' );
 		start
 ]
 
