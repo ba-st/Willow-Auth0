@@ -34,7 +34,7 @@ BaselineOfWillowAuth0 >> projectClass [
 BaselineOfWillowAuth0 >> setUpDependencies: spec [
 
 	spec
-		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v14/source' ];
+		baseline: 'Willow' with: [ spec repository: 'github://ba-st/Willow:v14' ];
 		project: 'Willow-Deployment' copyFrom: 'Willow' with: [ spec loads: 'Deployment' ];
 		project: 'Willow-SUnit' copyFrom: 'Willow' with: [ spec loads: 'Dependent-SUnit-Extensions' ];
 		project: 'Willow-Tools' copyFrom: 'Willow' with: [ spec loads: 'Tools' ].
