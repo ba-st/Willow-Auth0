@@ -2,7 +2,8 @@
 
 ![Logo](assets/logo.svg)
 
-Integration between [Willow](https://github.com/ba-st/Willow/) and [Auth0 Universal Login](https://auth0.com/universal-login/)
+Integration between [Willow](https://github.com/ba-st/Willow/) and
+[Auth0 Universal Login](https://auth0.com/universal-login/)
 
 [![Unit Tests](https://github.com/ba-st/Willow-Auth0/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/ba-st/Willow-Auth0/actions/workflows/unit-tests.yml/badge.svg)
 [![Coverage Status](https://codecov.io/github/ba-st/Willow-Auth0/coverage.svg?branch=release-candidate)](https://codecov.io/gh/ba-st/Willow-Auth0/branch/release-candidate)
