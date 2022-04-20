@@ -2,8 +2,8 @@ SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'WillowAuth0',
-      #directory : 'source',
-      #load : [ 'Development' ],
+      #directory : '../source',
+      #load : [ 'Tests' ],
       #platforms : [  #pharo ]
     }
   ],
