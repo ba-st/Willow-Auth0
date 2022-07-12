@@ -7,16 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        smalltalk: [ Pharo64-10, Pharo64-9.0, Pharo64-8.0, Pharo64-7.0 ]
+        smalltalk: [ Pharo64-10, Pharo64-9.0, Pharo64-8.0 ]
     name: ${{ matrix.smalltalk }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Smalltalk CI
         uses: hpi-swa/setup-smalltalkCI@v1
-        env:
-          WA0_DOMAIN: example-tenant.auth0.com
-          WA0_CLIENT_ID: example-id
-          WA0_CLIENT_SECRET: example-secret
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
       - name: Load Image and Run Tests
