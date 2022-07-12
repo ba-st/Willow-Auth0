@@ -1,0 +1,13 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'WillowAuth0',
+      #directory : '../source',
+      #load : [ 'Demo' ],
+      #platforms : [  #pharo ]
+    }
+  ],
+  #testing : {
+    #failOnZeroTests : false
+  }
+}
