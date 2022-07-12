@@ -44,7 +44,13 @@ BaselineOfWillowAuth0 >> setUpDependencies: spec [
 
 	spec
 		baseline: 'Launchpad' with: [ spec repository: 'github://ba-st/Launchpad:v4' ];
-		project: 'Launchpad-Deployment' copyFrom: 'Launchpad' with: [ spec loads: 'Deployment' ]
+		project: 'Launchpad-Deployment' copyFrom: 'Launchpad' with: [ spec loads: 'Deployment' ].
+
+	spec
+		baseline: 'Hyperspace' with: [ spec repository: 'github://ba-st/Hyperspace:v4' ];
+		project: 'Hyperspace-SUnit'
+		copyFrom: 'Hyperspace'
+		with: [ spec loads: 'Dependent-SUnit-Extensions' ]
 ]
 
 { #category : #initialization }
@@ -62,6 +68,6 @@ BaselineOfWillowAuth0 >> setUpPackages: spec [
 		package: 'Willow-Auth0-Demo' with: [ spec requires: #( 'Willow-Auth0' 'Launchpad-Deployment' ) ];
 		group: 'Demo' with: 'Willow-Auth0-Demo';
 		package: 'Willow-Auth0-Demo-Tests'
-		with: [ spec requires: #( 'Willow-Auth0-Demo' 'Willow-SUnit' ) ];
+		with: [ spec requires: #( 'Willow-Auth0-Demo' 'Willow-SUnit' 'Hyperspace-SUnit' ) ];
 		group: 'Tests' with: 'Willow-Auth0-Demo-Tests'
 ]
