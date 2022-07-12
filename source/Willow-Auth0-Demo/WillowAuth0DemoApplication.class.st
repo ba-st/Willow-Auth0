@@ -7,14 +7,14 @@ willow-auth0-demo - A demo web application using Auth0 Universal Login
 - `--auth0.disable-secure-transport=<disableSecureTransport>` Connect to the authentication provider with HTTP instead of HTTPS. Just for local development. Defaults to false.
 - `--auth0.domain=<domain>` Auth0 domain to connect. For example: company.auth0.com.
 - `--auth0.client-id=<clientId>` Client ID associated with this application in Auth0.
-- `--auth0.client-secret=<clientSecret>` Client secret  associated with this application in Auth0.
+- `--auth0.client-secret=<clientSecret>` Client secret associated with this application in Auth0.
 ## Environment
 - `PUBLIC_URL` Public location where the app is deployed.
 - `LISTENING_PORT` Web server's Listening port. Defaults to 3000.
 - `AUTH0__DISABLE_SECURE_TRANSPORT` Connect to the authentication provider with HTTP instead of HTTPS. Just for local development. Defaults to false.
 - `AUTH0__DOMAIN` Auth0 domain to connect. For example: company.auth0.com.
 - `AUTH0__CLIENT_ID` Client ID associated with this application in Auth0.
-- `AUTH0__CLIENT_SECRET` Client secret  associated with this application in Auth0.
+- `AUTH0__CLIENT_SECRET` Client secret associated with this application in Auth0.
 
 "
 Class {
@@ -64,7 +64,7 @@ WillowAuth0DemoApplication class >> configurationParameters [
 			    inside: #( 'Auth0' ).
 		  ( MandatoryConfigurationParameter
 			    named: 'Client Secret'
-			    describedBy: 'Client secret  associated with this application in Auth0'
+			    describedBy: 'Client secret associated with this application in Auth0'
 			    inside: #( 'Auth0' ) ) asSensitive }
 ]
 
