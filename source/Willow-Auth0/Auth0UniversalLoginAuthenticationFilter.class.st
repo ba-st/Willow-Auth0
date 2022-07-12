@@ -12,7 +12,8 @@ Class {
 		'nonceProvider',
 		'knownStates',
 		'jsonWebSignatureProvider',
-		'knownNonces'
+		'knownNonces',
+		'scheme'
 	],
 	#category : #'Willow-Auth0'
 }
@@ -70,7 +71,14 @@ Auth0UniversalLoginAuthenticationFilter >> initializeAt: aDomain for: aClientId 
 	clientId := aClientId.
 	redirectionURI := aRedirectionURI .
 	nonceProvider := aBlock.
-	jsonWebSignatureProvider := aDyadicBlock
+	jsonWebSignatureProvider := aDyadicBlock.
+	scheme := 'https'
+]
+
+{ #category : #'private - processing' }
+Auth0UniversalLoginAuthenticationFilter >> issuer [
+
+	^ '<1s>://<2s>/' expandMacrosWith: scheme with: domain
 ]
 
 { #category : #private }
@@ -88,8 +96,9 @@ Auth0UniversalLoginAuthenticationFilter >> newNonce [
 { #category : #'private - processing' }
 Auth0UniversalLoginAuthenticationFilter >> processClaimsIn: claimSet ifInvalid: anInvalidAction [
 
-	[ claimSet expirationTime asInteger <= DateAndTime now asUnixTime then: anInvalidAction.
-	claimSet issuer ~= ( 'https://<1s>/' expandMacrosWith: domain ) then: anInvalidAction.
+	[ 
+	claimSet expirationTime asInteger <= DateAndTime now asUnixTime then: anInvalidAction.
+	claimSet issuer ~= self issuer then: anInvalidAction.
 	claimSet audiences ~= clientId then: anInvalidAction.
 	knownNonces remove: claimSet nonce ifAbsent: anInvalidAction
 	]
@@ -135,7 +144,7 @@ Auth0UniversalLoginAuthenticationFilter >> redirectToAuthorizeEndpoint: aRequest
 
 	| authorizeEndpoint stateNonce jwtNonce uri |
 
-	authorizeEndpoint := ( 'https://<1s>/authorize' expandMacrosWith: domain ) seasideUrl.
+	authorizeEndpoint := self issuer seasideUrl / 'authorize'.
 	authorizeEndpoint addField: 'client_id' value: clientId.
 	authorizeEndpoint addField: 'redirect_uri' value: redirectionURI.
 	authorizeEndpoint addField: 'scope' value: 'openid email profile'.

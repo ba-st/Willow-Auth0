@@ -7,8 +7,22 @@ Class {
 	#instVars : [
 		'session'
 	],
-	#category : #'Willow-Auth0-Tests'
+	#category : #'Willow-Auth0-Demo-Tests'
 }
+
+{ #category : #running }
+WillowAuth0DemoTest >> configuration [
+
+	^ NeoJSONObject new
+		  publicURL: 'http://localhost:3000/willow-auth0-demo';
+		  auth0: ( NeoJSONObject new
+				    domain: 'example.auth0.com';
+				    clientSecret: 'secret';
+				    clientId: 'id';
+				    disableSecureTransport: true;
+				    yourself );
+		  yourself
+]
 
 { #category : #running }
 WillowAuth0DemoTest >> createHandlers [
@@ -30,12 +44,9 @@ WillowAuth0DemoTest >> createHandlers [
 ]
 
 { #category : #running }
-WillowAuth0DemoTest >> setUp [
+WillowAuth0DemoTest >> performTest [
 
-	super setUp.
-	OSEnvironment current at: 'WA0_CLIENT_SECRET' ifAbsentPut: [ 'secret' ].
-	OSEnvironment current at: 'WA0_DOMAIN' ifAbsentPut: [ 'example.auth0.com' ].
-	OSEnvironment current at: 'WA0_CLIENT_ID' ifAbsentPut: [ 'id' ]
+	CurrentApplicationConfiguration value: self configuration during: [ super performTest ]
 ]
 
 { #category : #tests }

@@ -1,9 +1,5 @@
 "
 I'm a demo Willow application.
-For running I will need some environment variables available that can be obtained on the Auth0 Dashboard, for the Regular Web Application you must have created:
-- WA0_DOMAIN : Domain 
-- WA0_CLIENT_ID : Client ID
-- WA0_CLIENT_SECRET : Client Secret
 "
 Class {
 	#name : #WillowAuth0Demo,
@@ -13,7 +9,7 @@ Class {
 		'queryFields',
 		'uriPath'
 	],
-	#category : #'Willow-Auth0-Tests'
+	#category : #'Willow-Auth0-Demo'
 }
 
 { #category : #accessing }
@@ -23,79 +19,67 @@ WillowAuth0Demo class >> applicationTitle [
 ]
 
 { #category : #private }
+WillowAuth0Demo class >> auth0Configuration [
+
+	^ self configuration auth0
+]
+
+{ #category : #private }
 WillowAuth0Demo class >> authenticationCallbackURL [
 
-	"This is a demo app, in a real scenario you will need a public URL and https"
-
-	^ 'http://localhost:3000/<1s>' expandMacrosWith: self handlerName
+	^ self configuration publicURL
 ]
 
 { #category : #private }
 WillowAuth0Demo class >> authenticationDomain [
 
-	^ OSEnvironment current
-		at: 'WA0_DOMAIN'
-		ifAbsent: [ Error signal: 'Missing required environment variable' ]
+	^ self auth0Configuration domain
 ]
 
 { #category : #private }
 WillowAuth0Demo class >> clientId [
 
-	^ OSEnvironment current
-		at: 'WA0_CLIENT_ID'
-		ifAbsent: [ Error signal: 'Missing required environment variable' ]
+	^ self auth0Configuration clientId
+]
+
+{ #category : #private }
+WillowAuth0Demo class >> configuration [
+
+	^ CurrentApplicationConfiguration value
 ]
 
 { #category : #accessing }
 WillowAuth0Demo class >> handlerName [
 
-	^'willow-auth0-demo'
+	^ 'willow-auth0-demo'
 ]
 
 { #category : #private }
 WillowAuth0Demo class >> jsonWebTokenSignatureAlgorithm [
 
-	^JsonWebAlgorithm named: 'HS256'
+	^ JsonWebAlgorithm named: 'HS256'
 ]
 
 { #category : #private }
 WillowAuth0Demo class >> logoutReturnUrl [
 
-	^ 'http://localhost:3000/willow-auth0-demo'
+	^ self authenticationCallbackURL 
 ]
 
 { #category : #private }
 WillowAuth0Demo class >> materializeAndCheckSignatureOfJsonWebToken: tokenString [
 
-	^ OSEnvironment current
-		at: 'WA0_CLIENT_SECRET'
-		ifPresent: [ :variable | 
-			| jws |
-			jws := JsonWebSignature materializeCompact: tokenString key: variable.
-			variable atAllPut: Character null.
-			jws
-			]
-		ifAbsent: [ Error signal: 'Missing required environment variable' ]
+	^ JsonWebSignature materializeCompact: tokenString key: self auth0Configuration clientSecret
 ]
 
-{ #category : #utility }
-WillowAuth0Demo class >> start [
+{ #category : #private }
+WillowAuth0Demo class >> newAuthenticationFilter [
 
-	<ignoreForCoverage>
-	self registerAsDevelopmentApplication.
-	( ZnZincServerAdaptor port: 3000 )
-		codec: ( GRCodec forEncoding: 'utf8' );
-		start
-]
+	| filter |
 
-{ #category : #utility }
-WillowAuth0Demo class >> stop [
-
-	<ignoreForCoverage>
-	ZnServer stopDefault.
-	ZnZincServerAdaptor allInstancesDo: [ :each | each shutDown ].
-	self unregisterFromApplications.
-	GRPlatform current seasideGarbageCollect
+	filter := super newAuthenticationFilter.
+	self auth0Configuration disableSecureTransport then: [ filter useHTTPTransport ].
+	^ filter
 ]
 
 { #category : #accessing }

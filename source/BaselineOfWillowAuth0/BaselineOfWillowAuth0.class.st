@@ -11,17 +11,16 @@ Class {
 BaselineOfWillowAuth0 >> baseline: spec [
 
 	<baseline>
-	spec
-		for: #pharo
-		do: [ self
-				setUpDependencies: spec;
-				setUpPackages: spec.
-			spec
-				group: 'CI' with: 'Tests';
-				group: 'Dependent-SUnit-Extensions' with: 'Willow-SUnit';
-				group: 'Tools' with: 'Willow-Tools';
-				group: 'Development' with: #('Tests')
-			]
+	spec for: #pharo do: [ 
+		self
+			setUpDependencies: spec;
+			setUpPackages: spec.
+		spec
+			group: 'CI' with: 'Tests';
+			group: 'Dependent-SUnit-Extensions' with: 'Willow-SUnit';
+			group: 'Tools' with: 'Willow-Tools';
+			group: 'Development' with: #( 'Tests' 'Demo' )
+		]
 ]
 
 { #category : #accessing }
@@ -41,17 +40,28 @@ BaselineOfWillowAuth0 >> setUpDependencies: spec [
 
 	spec
 		baseline: 'JSONWebToken' with: [ spec repository: 'github://noha/JSONWebToken:0.3/source' ];
-		project: 'JSONWebToken-Deployment'
-			copyFrom: 'JSONWebToken'
-			with: [ spec loads: 'Core' ]
+		project: 'JSONWebToken-Deployment' copyFrom: 'JSONWebToken' with: [ spec loads: 'Core' ].
+
+	spec
+		baseline: 'Launchpad' with: [ spec repository: 'github://ba-st/Launchpad:v4' ];
+		project: 'Launchpad-Deployment' copyFrom: 'Launchpad' with: [ spec loads: 'Deployment' ]
 ]
 
 { #category : #initialization }
 BaselineOfWillowAuth0 >> setUpPackages: spec [
 
 	spec
-		package: 'Willow-Auth0' with: [ spec requires: #('Willow-Deployment' 'JSONWebToken-Deployment') ];
+		package: 'Willow-Auth0'
+		with: [ spec requires: #( 'Willow-Deployment' 'JSONWebToken-Deployment' ) ];
 		group: 'Deployment' with: 'Willow-Auth0';
-		package: 'Willow-Auth0-Tests' with: [ spec requires: #('Willow-Auth0' 'Willow-Tools' 'Willow-SUnit') ];
-		group: 'Tests' with: 'Willow-Auth0-Tests'
+		package: 'Willow-Auth0-Tests'
+		with: [ spec requires: #( 'Willow-Auth0' 'Willow-Tools' 'Willow-SUnit' ) ];
+		group: 'Tests' with: 'Willow-Auth0-Tests'.
+
+	spec
+		package: 'Willow-Auth0-Demo' with: [ spec requires: #( 'Willow-Auth0' 'Launchpad-Deployment' ) ];
+		group: 'Demo' with: 'Willow-Auth0-Demo';
+		package: 'Willow-Auth0-Demo-Tests'
+		with: [ spec requires: #( 'Willow-Auth0-Demo' 'Willow-SUnit' ) ];
+		group: 'Tests' with: 'Willow-Auth0-Demo-Tests'
 ]
