@@ -1,5 +1,5 @@
 # Stage 1: Load the project
-FROM ghcr.io/ba-st/pharo-loader:v10.0.0 as loader
+FROM ghcr.io/ba-st/pharo-loader:v10.0.1 as loader
 
 COPY ./source ./source
 COPY ./.git/ ./.git/
