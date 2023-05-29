@@ -10,6 +10,12 @@ Class {
 	#category : #'Willow-Auth0-Tests'
 }
 
+{ #category : #'private - accessing' }
+Auth0UniversalLoginAuthenticationFilterTest >> apiAudience [
+
+	^ 'http://api.com'
+]
+
 { #category : #'private - asserting' }
 Auth0UniversalLoginAuthenticationFilterTest >> assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter [
 
@@ -63,6 +69,26 @@ Auth0UniversalLoginAuthenticationFilterTest >> expectedIssuer [
 ]
 
 { #category : #'private - accessing' }
+Auth0UniversalLoginAuthenticationFilterTest >> filterWithOrganizationIdAndAudience [
+
+	| count |
+	count := 0.
+	^ Auth0UniversalLoginAuthenticationFilter
+		  at: self domain
+		  for: self clientId
+		  in: self organizationId
+		  addressedTo: self apiAudience
+		  redirectingTo: self callbackURI
+		  nonceProvidedBy: [ 
+			  count := count + 1.
+			  count ]
+		  JWSProvidedBy: [ :token :invalidAction | 
+			  [ JsonWebSignature materializeCompact: token key: self secret ]
+				  on: Error
+				  do: [ :error | error return: invalidAction value ] ]
+]
+
+{ #category : #'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> jwtWithClaims: aBlock [
 
 	| claims |
@@ -75,6 +101,12 @@ Auth0UniversalLoginAuthenticationFilterTest >> jwtWithClaims: aBlock [
 		payload: claims;
 		key: self secret;
 		compactSerialized
+]
+
+{ #category : #'private - accessing' }
+Auth0UniversalLoginAuthenticationFilterTest >> organizationId [
+
+	^ 'mercap'
 ]
 
 { #category : #running }
@@ -237,6 +269,38 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsR
 		assert: ( redirectLocation queryFields at: 'response_mode' ) equals: 'form_post';
 		assert: ( redirectLocation queryFields at: 'screen_hint' ) equals: 'signup';
 		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
+]
+
+{ #category : #tests }
+Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdWithInvitationAndOrganizationIsRedirectedToAuthorizeEndpoint [
+
+	| response redirectLocation organizationAndAudienceFilter |
+	organizationAndAudienceFilter := self filterWithOrganizationIdAndAudience.
+
+	self requestContext request queryFields at: 'invitation' put: 'invitationId2022'.
+	self requestContext handler addFilter: organizationAndAudienceFilter.
+	response := self responseAfter: [ organizationAndAudienceFilter handleFiltered: self requestContext ].
+
+	self assert: response status equals: 302.
+
+	redirectLocation := (response headerAt: 'Location') seasideUrl.
+
+	self
+		assert: redirectLocation isSsl;
+		assert: redirectLocation host equals: self domain;
+		assert: (redirectLocation queryFields at: 'client_id')
+		equals: self clientId;
+		assert: (redirectLocation queryFields at: 'redirect_uri')
+		equals: self callbackURI;
+		assert: (redirectLocation queryFields at: 'scope')
+		equals: 'openid email profile';
+		assert: (redirectLocation queryFields at: 'response_type')
+		equals: 'token id_token';
+		assert: (redirectLocation queryFields at: 'response_mode')
+		equals: 'form_post';
+		assert: (redirectLocation queryFields at: 'nonce') equals: 1;
+		assert: (redirectLocation queryFields at: 'invitation') 
+		equals: 'invitationId2022'
 ]
 
 { #category : #tests }

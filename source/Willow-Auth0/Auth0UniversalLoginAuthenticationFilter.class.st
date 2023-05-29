@@ -13,20 +13,48 @@ Class {
 		'knownStates',
 		'jsonWebSignatureProvider',
 		'knownNonces',
-		'scheme'
+		'scheme',
+		'optionalOrganizationId',
+		'optionalAudience'
 	],
 	#category : #'Willow-Auth0'
 }
 
 { #category : #'instance creation' }
-Auth0UniversalLoginAuthenticationFilter class >> at: aDomain for: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
+Auth0UniversalLoginAuthenticationFilter class >> at: aDomain for: aClientId in: aOrganizationId addressedTo: anAudience redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
+
+	^ self at: aDomain
+		for: aClientId
+		optionalIn: (Optional containing: aOrganizationId)
+		optionalAddressedTo: (Optional containing: anAudience)
+		redirectingTo: aRedirectionURI
+		nonceProvidedBy: aBlock
+		JWSProvidedBy: aDyadicBlock
+]
+
+{ #category : #private }
+Auth0UniversalLoginAuthenticationFilter class >> at: aDomain for: aClientId optionalIn: anOptionalOrganizationId optionalAddressedTo: anOptionalAudience redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
 
 	^ self new
 		initializeAt: aDomain
 		for: aClientId
+		in: anOptionalOrganizationId
+		addressedTo: anOptionalAudience
 		redirectingTo: aRedirectionURI
 		nonceProvidedBy: aBlock
 		JWSProvidedBy: aDyadicBlock
+]
+
+{ #category : #'instance creation' }
+Auth0UniversalLoginAuthenticationFilter class >> at: aDomain for: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
+
+	^ self at: aDomain
+		  for: aClientId
+		  optionalIn: Optional unused 
+		  optionalAddressedTo: Optional unused
+		  redirectingTo: aRedirectionURI
+		  nonceProvidedBy: aBlock
+		  JWSProvidedBy: aDyadicBlock
 ]
 
 { #category : #processing }
@@ -63,12 +91,14 @@ Auth0UniversalLoginAuthenticationFilter >> handlePost: aRequestContext [
 ]
 
 { #category : #initialization }
-Auth0UniversalLoginAuthenticationFilter >> initializeAt: aDomain for: aClientId redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
+Auth0UniversalLoginAuthenticationFilter >> initializeAt: aDomain for: aClientId in: anOptionalOrganizationId addressedTo: anOptionalAudience redirectingTo: aRedirectionURI nonceProvidedBy: aBlock JWSProvidedBy: aDyadicBlock [
 
 	knownStates := Dictionary new.
 	knownNonces := 	OrderedCollection new.
 	domain := aDomain.
 	clientId := aClientId.
+	optionalOrganizationId := anOptionalOrganizationId.
+	optionalAudience := anOptionalAudience.
 	redirectionURI := aRedirectionURI .
 	nonceProvider := aBlock.
 	jsonWebSignatureProvider := aDyadicBlock.
@@ -150,6 +180,8 @@ Auth0UniversalLoginAuthenticationFilter >> redirectToAuthorizeEndpoint: aRequest
 	authorizeEndpoint addField: 'scope' value: 'openid email profile'.
 	authorizeEndpoint addField: 'response_type' value: 'token id_token'.
 	authorizeEndpoint addField: 'response_mode' value: 'form_post'.
+	optionalOrganizationId withContentDo: [ :organizationId | authorizeEndpoint addField: 'organization' value: organizationId ].
+	optionalAudience withContentDo: [ :audience | authorizeEndpoint addField: 'audience' value: audience ].
 	jwtNonce := self newNonce.
 	knownNonces add: jwtNonce.
 	authorizeEndpoint addField: 'nonce' value: jwtNonce.
@@ -160,6 +192,9 @@ Auth0UniversalLoginAuthenticationFilter >> redirectToAuthorizeEndpoint: aRequest
 	uri queryFields
 		at: 'screen_hint'
 		ifPresent: [ :hintValue | authorizeEndpoint addField: 'screen_hint' value: hintValue ].
+	uri queryFields
+		at: 'invitation'
+		ifPresent: [ :invitation | authorizeEndpoint addField: 'invitation' value: invitation ].
 	uri queryFields
 		at: 'prompt'
 		ifPresent: [ :hintValue | authorizeEndpoint addField: 'prompt' value: hintValue ].
