@@ -1,5 +1,5 @@
 # Stage 1: Load the project
-FROM ghcr.io/ba-st/pharo-loader:v10.0.1 as loader
+FROM ghcr.io/ba-st/pharo-loader:v11.0.0 as loader
 
 COPY --chown=pharo:users ./source ./source
 COPY --chown=pharo:users ./.git/ ./.git/
@@ -10,6 +10,5 @@ RUN pharo metacello install gitlocal://./source \
 FROM ghcr.io/ba-st/launchpad:v4
 
 COPY --from=loader /opt/pharo/Pharo.image ./
-COPY --from=loader /opt/pharo/Pharo.changes ./
 COPY --from=loader /opt/pharo/Pharo*.sources ./
 CMD [ "launchpad-start", "willow-auth0-demo" ]
