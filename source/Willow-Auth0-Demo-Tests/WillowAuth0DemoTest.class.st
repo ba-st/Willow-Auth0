@@ -2,15 +2,16 @@
 A WillowAuth0DemoTest is a test class for testing the behavior of WillowAuth0Demo
 "
 Class {
-	#name : #WillowAuth0DemoTest,
-	#superclass : #BWRenderingTest,
+	#name : 'WillowAuth0DemoTest',
+	#superclass : 'BWRenderingTest',
 	#instVars : [
 		'session'
 	],
-	#category : #'Willow-Auth0-Demo-Tests'
+	#category : 'Willow-Auth0-Demo-Tests',
+	#package : 'Willow-Auth0-Demo-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoTest >> configuration [
 
 	^ NeoJSONObject new
@@ -24,7 +25,7 @@ WillowAuth0DemoTest >> configuration [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoTest >> createHandlers [
 
 	| registry |
@@ -43,19 +44,19 @@ WillowAuth0DemoTest >> createHandlers [
 	^ Array with: registry with: session
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoTest >> performTest [
 
 	CurrentApplicationConfiguration value: self configuration during: [ super performTest ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testApplicationTitle [
 
 	self assert: WillowAuth0Demo applicationTitle equals: 'Willow Auth0 - Demo Application'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testInitialRequest [
 
 	| response |
@@ -65,13 +66,13 @@ WillowAuth0DemoTest >> testInitialRequest [
 	self assert: response status equals: 403
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testJQueryLibrary [
 
 	self assert: ( WillowAuth0Demo new jQueryLibrary isA: JQuery3OnlineLibrary )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testJsonWebTokenSignatureAlgorithm [
 
 	self
@@ -79,7 +80,7 @@ WillowAuth0DemoTest >> testJsonWebTokenSignatureAlgorithm [
 		equals: ( JsonWebAlgorithm named: 'HS256' )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testLogoutFromAuth0 [
 
 	| response redirectLocation |
@@ -102,7 +103,7 @@ WillowAuth0DemoTest >> testLogoutFromAuth0 [
 		assert: ( redirectLocation queryFields at: 'returnTo' ) equals: WillowAuth0Demo logoutReturnUrl
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebToken [
 
 	| token |
@@ -113,7 +114,7 @@ WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebToken [
 			( JWTClaimsSet new
 				sub: 'auth0|123456789';
 				yourself );
-		key: 'secret';
+		privateKey: 'secret';
 		compactSerialized.
 
 	self
@@ -121,7 +122,7 @@ WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebToken [
 		equals: 'auth0|123456789'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebTokenWithInvalidKey [
 
 	| token |
@@ -129,7 +130,7 @@ WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebTokenWithInvalid
 	token := JsonWebSignature new
 		algorithmName: 'HS256';
 		payload: JWTClaimsSet new;
-		key: 'fake-secret';
+		privateKey: 'fake-secret';
 		compactSerialized.
 
 	self
@@ -138,7 +139,7 @@ WillowAuth0DemoTest >> testMaterializeAndCheckSignatureOfJsonWebTokenWithInvalid
 		withMessageText: 'signature does not match'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testRegistration [
 
 	self should: [ WADispatcher default handlerAt: WillowAuth0Demo handlerName ] raise: WAError.
@@ -149,7 +150,7 @@ WillowAuth0DemoTest >> testRegistration [
 		ensure: [ WillowAuth0Demo unregisterFromApplications ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoTest >> testRenderContentOn [
 
 	| application html |

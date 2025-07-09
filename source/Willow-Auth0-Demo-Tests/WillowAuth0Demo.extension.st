@@ -1,6 +1,6 @@
-Extension { #name : #WillowAuth0Demo }
+Extension { #name : 'WillowAuth0Demo' }
 
-{ #category : #'*Willow-Auth0-Demo-Tests' }
+{ #category : '*Willow-Auth0-Demo-Tests' }
 WillowAuth0Demo class >> start [
 
 	<ignoreForCoverage>
@@ -10,7 +10,7 @@ WillowAuth0Demo class >> start [
 		start
 ]
 
-{ #category : #'*Willow-Auth0-Demo-Tests' }
+{ #category : '*Willow-Auth0-Demo-Tests' }
 WillowAuth0Demo class >> stop [
 
 	<ignoreForCoverage>
