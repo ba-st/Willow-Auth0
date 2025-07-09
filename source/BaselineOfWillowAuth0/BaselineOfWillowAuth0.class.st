@@ -40,7 +40,7 @@ BaselineOfWillowAuth0 >> setUpDependencies: spec [
 		project: 'Willow-Tools' copyFrom: 'Willow' with: [ spec loads: 'Tools' ].
 
 	spec
-		baseline: 'JSONWebToken' with: [ spec repository: 'github://noha/JSONWebToken:0.3/source' ];
+		baseline: 'JSONWebToken' with: [ spec repository: 'github://ba-st-dependencies/JSONWebToken:v3' ];
 		project: 'JSONWebToken-Deployment' copyFrom: 'JSONWebToken' with: [ spec loads: 'Core' ].
 
 	spec
