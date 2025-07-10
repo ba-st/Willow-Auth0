@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfWillowAuth0 }
+Package { #name : 'BaselineOfWillowAuth0' }

@@ -2,21 +2,22 @@
 An Auth0UniversalLoginAuthenticationFilterTest is a test class for testing the behavior of Auth0UniversalLoginAuthenticationFilter
 "
 Class {
-	#name : #Auth0UniversalLoginAuthenticationFilterTest,
-	#superclass : #BWRenderingTest,
+	#name : 'Auth0UniversalLoginAuthenticationFilterTest',
+	#superclass : 'BWRenderingTest',
 	#instVars : [
 		'filter'
 	],
-	#category : #'Willow-Auth0-Tests'
+	#category : 'Willow-Auth0-Tests',
+	#package : 'Willow-Auth0-Tests'
 }
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> apiAudience [
 
 	^ 'http://api.com'
 ]
 
-{ #category : #'private - asserting' }
+{ #category : 'private - asserting' }
 Auth0UniversalLoginAuthenticationFilterTest >> assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter [
 
 	self
@@ -28,25 +29,25 @@ Auth0UniversalLoginAuthenticationFilterTest >> assertResponseStatusIsForbiddenAf
 			]
 ]
 
-{ #category : #'private - asserting' }
+{ #category : 'private - asserting' }
 Auth0UniversalLoginAuthenticationFilterTest >> assertStatusIsForbidden: response [
 
 	self assert: response status equals: 403
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> callbackURI [
 
 	^ 'https://app.example.com'
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> clientId [
 
 	^ 'XJALSHFnoewhfj98jjds'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 Auth0UniversalLoginAuthenticationFilterTest >> createHandlers [
 
 	^ Array
@@ -56,19 +57,19 @@ Auth0UniversalLoginAuthenticationFilterTest >> createHandlers [
 				yourself )
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> domain [
 
 	^ 'example.auth0.com'
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> expectedIssuer [
 
 	^ 'https://<1s>/' expandMacrosWith: self domain
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> filterWithOrganizationIdAndAudience [
 
 	| count |
@@ -88,7 +89,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> filterWithOrganizationIdAndAudien
 				  do: [ :error | error return: invalidAction value ] ]
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> jwtWithClaims: aBlock [
 
 	| claims |
@@ -99,17 +100,17 @@ Auth0UniversalLoginAuthenticationFilterTest >> jwtWithClaims: aBlock [
 	^ JsonWebSignature new
 		algorithm: JWAHMACSHA256;
 		payload: claims;
-		key: self secret;
+		privateKey: self secret;
 		compactSerialized
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> organizationId [
 
 	^ 'mercap'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 Auth0UniversalLoginAuthenticationFilterTest >> receivePostRequestIncluding: jwt [
 
 	"I will simulate receiving a POST request with a valid state field and a JWT token"
@@ -125,19 +126,19 @@ Auth0UniversalLoginAuthenticationFilterTest >> receivePostRequestIncluding: jwt 
 		response: WABufferedResponse new
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 Auth0UniversalLoginAuthenticationFilterTest >> receivePostRequestIncludingJWTClaiming: aBlock [
 
 	self receivePostRequestIncluding: ( self jwtWithClaims: aBlock )
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 Auth0UniversalLoginAuthenticationFilterTest >> secret [
 
 	^ 'secret'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 Auth0UniversalLoginAuthenticationFilterTest >> setUp [
 
 	| count |
@@ -156,7 +157,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> setUp [
 			]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testGetWithSeasideSessionId [
 
 	| response |
@@ -173,7 +174,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithSeasideSessionId [
 			]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpoint [
 
 	| response redirectLocation |
@@ -196,7 +197,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsR
 		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpointIgnoringNonHintQueryFields [
 
 	| response redirectLocation |
@@ -221,7 +222,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsR
 		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpointIncludingPromptHint [
 
 	| response redirectLocation |
@@ -246,7 +247,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsR
 		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpointIncludingSignUpHint [
 
 	| response redirectLocation |
@@ -271,7 +272,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdIsR
 		assert: ( redirectLocation queryFields at: 'nonce' ) equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdWithInvitationAndOrganizationIsRedirectedToAuthorizeEndpoint [
 
 	| response redirectLocation organizationAndAudienceFilter |
@@ -303,7 +304,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testGetWithoutSeasideSessionIdWit
 		equals: 'invitationId2022'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithSeasideSessionId [
 
 	| response |
@@ -320,7 +321,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithSeasideSessionId [
 			]
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndInvalidAudience [
 
 	self
@@ -336,7 +337,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndInvalidExpirationTime [
 
 	self
@@ -352,7 +353,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndInvalidIssuer [
 
 	self
@@ -368,7 +369,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndInvalidJWT [
 
 	self testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpoint.
@@ -386,7 +387,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndInvalidNonce [
 
 	self
@@ -402,7 +403,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndInvalidState [
 
 	self testGetWithoutSeasideSessionIdIsRedirectedToAuthorizeEndpoint.
@@ -419,7 +420,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndJWTBadlySigned [
 
 	| jwt |
@@ -435,7 +436,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 				issuer: self expectedIssuer;
 				nonce: 1;
 				yourself );
-		key: self secret reversed;
+		privateKey: self secret reversed;
 		compactSerialized.
 
 	self receivePostRequestIncluding: jwt.
@@ -443,7 +444,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndJWTMissingAudience [
 
 	self
@@ -458,7 +459,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndJWTMissingExpirationTime [
 
 	self
@@ -473,7 +474,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndJWTMissingIssuer [
 
 	self
@@ -488,7 +489,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndJWTMissingNonce [
 
 	self
@@ -503,7 +504,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 	self assertResponseStatusIsForbiddenAfterRequestHasBeenHandledByTheFilter
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAndValidJWT [
 
 	self
@@ -526,7 +527,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testPostWithoutSeasideSessionIdAn
 			]
 ]
 
-{ #category : #'tests - forbidden cases' }
+{ #category : 'tests - forbidden cases' }
 Auth0UniversalLoginAuthenticationFilterTest >> testUnexpectedRequestIsForbidden [
 
 	| response |
@@ -540,7 +541,7 @@ Auth0UniversalLoginAuthenticationFilterTest >> testUnexpectedRequestIsForbidden 
 	self assertStatusIsForbidden: response
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 Auth0UniversalLoginAuthenticationFilterTest >> use: aRequestContext during: aBlock [
 
 	WACurrentRequestContext

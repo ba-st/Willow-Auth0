@@ -2,56 +2,55 @@
 A WillowAuth0DemoApplicationTest is a test class for testing the behavior of WillowAuth0DemoApplication
 "
 Class {
-	#name : #WillowAuth0DemoApplicationTest,
-	#superclass : #TestCase,
+	#name : 'WillowAuth0DemoApplicationTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'application',
 		'port'
 	],
-	#category : #'Willow-Auth0-Demo-Tests'
+	#category : 'Willow-Auth0-Demo-Tests',
+	#package : 'Willow-Auth0-Demo-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoApplicationTest >> runCase [
 
 	self shouldnt: [ super runCase ] raise: Exit
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoApplicationTest >> setUp [
 
 	super setUp.
 	port := self freeListeningTCPPort
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoApplicationTest >> start: aLaunchpadApplication withAll: arguments [
 
-	String streamContents: [ :stream | 
-		| context rootCommand |
+	String streamContents: [ :stream |
+			| context rootCommand |
 
-		rootCommand := LaunchpadRootCommand new.
-		context := LaunchpadCommandLineProcessingContext
-			           handling: ( CommandLineArguments withArguments: { 
-						             'launchpad'.
-						             'start'.
-						             '--debug-mode'.
-						             aLaunchpadApplication commandName } , arguments )
-			           writingTo: stream.
-		self assert: ( rootCommand canHandle: ( context nextCommandLineArgumentIfNone: [ self fail ] ) ).
-		rootCommand evaluateWithin: context.
-		application := LaunchpadApplication currentlyRunning
+			rootCommand := LaunchpadRootCommand new.
+			context := LaunchpadApplicationStartingContext
+				           handling: ( CommandLineArguments withArguments:
+						             { 'launchpad' . 'start' . '--debug-mode' . aLaunchpadApplication commandName }
+						             , arguments )
+				           writingTo: stream.
+			self assert: ( rootCommand canHandle: ( context nextCommandLineArgumentIfNone: [ self fail ] ) ).
+			rootCommand evaluateWithin: context.
+			application := LaunchpadApplication currentlyRunning
 		]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoApplicationTest >> tearDown [ 
 
 	application ifNotNil: #stop.
 	super tearDown
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 WillowAuth0DemoApplicationTest >> testActivationWithAllArguments [
 
 	self
@@ -77,7 +76,7 @@ WillowAuth0DemoApplicationTest >> testActivationWithAllArguments [
 		do: [ :error | application stackTraceDumper dumpStackTraceFor: error ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 WillowAuth0DemoApplicationTest >> testPrintHelpOn [
 
 	| help |
