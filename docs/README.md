@@ -21,7 +21,7 @@ docker run -d -p 3000:3000 \
   -e AUTH0__DOMAIN={tenant.auth0.com} \
   -e AUTH0__CLIENT_ID={clientId} \
   -e AUTH0__CLIENT_SECRET={secret} \
-  ghrc.io/ba-st/willow-auth0-demo:release-candidate
+  ghcr.io/ba-st/willow-auth0-demo:release-candidate
 ```
 
 replacing the environment variables with valid settings for your application
