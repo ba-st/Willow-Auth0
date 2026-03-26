@@ -11,11 +11,10 @@ Integration between [Willow](https://github.com/ba-st/Willow/) and
 [![Markdown Lint](https://github.com/ba-st/Willow-Auth0/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/ba-st/Willow-Auth0/actions/workflows/markdown-lint.yml)
 
 [![GitHub release](https://img.shields.io/github/release/ba-st/Willow-Auth0.svg)](https://github.com/ba-st/Willow-Auth0/releases/latest)
-[![Pharo 8.0](https://img.shields.io/badge/Pharo-8.0-informational)](https://pharo.org)
-[![Pharo 9.0](https://img.shields.io/badge/Pharo-9.0-informational)](https://pharo.org)
 [![Pharo 10](https://img.shields.io/badge/Pharo-10-informational)](https://pharo.org)
 [![Pharo 11](https://img.shields.io/badge/Pharo-11-informational)](https://pharo.org)
 [![Pharo 12](https://img.shields.io/badge/Pharo-12-informational)](https://pharo.org)
+[![Pharo 13](https://img.shields.io/badge/Pharo-13-informational)](https://pharo.org)
 
 ## Quick links
 
