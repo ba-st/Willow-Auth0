@@ -2,77 +2,78 @@
 I'm a demo Willow application.
 "
 Class {
-	#name : #WillowAuth0Demo,
-	#superclass : #WillowApplicationAuthenticatedByAuth0UniversalLogin,
+	#name : 'WillowAuth0Demo',
+	#superclass : 'WillowApplicationAuthenticatedByAuth0UniversalLogin',
 	#instVars : [
 		'postFields',
 		'queryFields',
 		'uriPath'
 	],
-	#category : #'Willow-Auth0-Demo'
+	#category : 'Willow-Auth0-Demo',
+	#package : 'Willow-Auth0-Demo'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0Demo class >> applicationTitle [
 	
 	^'Willow Auth0 - Demo Application'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> auth0Configuration [
 
 	^ self configuration auth0
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> authenticationCallbackURL [
 
 	^ self configuration publicURL
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> authenticationDomain [
 
 	^ self auth0Configuration domain
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> clientId [
 
 	^ self auth0Configuration clientId
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> configuration [
 
 	^ CurrentApplicationConfiguration value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0Demo class >> handlerName [
 
 	^ 'willow-auth0-demo'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> jsonWebTokenSignatureAlgorithm [
 
 	^ JsonWebAlgorithm named: 'HS256'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> logoutReturnUrl [
 
 	^ self authenticationCallbackURL 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> materializeAndCheckSignatureOfJsonWebToken: tokenString [
 
 	^ JsonWebSignature materializeCompact: tokenString key: self auth0Configuration clientSecret
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 WillowAuth0Demo class >> newAuthenticationFilter [
 
 	| filter |
@@ -82,13 +83,13 @@ WillowAuth0Demo class >> newAuthenticationFilter [
 	^ filter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0Demo >> componentSupplierForApplication [
 
 	^ Html5ComponentSupplier new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0Demo >> contentView [
 
 	^ [ :html | 
@@ -103,7 +104,7 @@ WillowAuth0Demo >> contentView [
 		]
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 WillowAuth0Demo >> initialRequest: request [
 
 	super initialRequest: request.
@@ -112,7 +113,7 @@ WillowAuth0Demo >> initialRequest: request [
 	uriPath := request uri path.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WillowAuth0Demo >> initialize [
 
 	super initialize.
@@ -121,13 +122,13 @@ WillowAuth0Demo >> initialize [
 	queryFields := Dictionary new.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0Demo >> jQueryLibrary [
 
 	^ JQuery3OnlineLibrary default
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderAccessTokenClaimsOn: html [
 
 	postFields
@@ -142,7 +143,7 @@ WillowAuth0Demo >> renderAccessTokenClaimsOn: html [
 			]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderDictionary: aDictionary asDefinitionListOn: html [
 
 	html
@@ -155,7 +156,7 @@ WillowAuth0Demo >> renderDictionary: aDictionary asDefinitionListOn: html [
 			]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderIdTokenOn: html [
 
 	postFields
@@ -170,7 +171,7 @@ WillowAuth0Demo >> renderIdTokenOn: html [
 			]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderLogoutButtonOn: html [
 
 	| button |
@@ -182,7 +183,7 @@ WillowAuth0Demo >> renderLogoutButtonOn: html [
 	html form: button
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderPostFieldsOn: html [
 
 	html heading
@@ -191,7 +192,7 @@ WillowAuth0Demo >> renderPostFieldsOn: html [
 	self renderDictionary: postFields asDefinitionListOn: html
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderQueryFieldsOn: html [
 
 	html heading
@@ -200,7 +201,7 @@ WillowAuth0Demo >> renderQueryFieldsOn: html [
 	self renderDictionary: queryFields asDefinitionListOn: html
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 WillowAuth0Demo >> renderUriPathOn: html [
 
 	html heading
