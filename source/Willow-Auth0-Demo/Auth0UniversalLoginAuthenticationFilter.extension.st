@@ -1,6 +1,6 @@
-Extension { #name : #Auth0UniversalLoginAuthenticationFilter }
+Extension { #name : 'Auth0UniversalLoginAuthenticationFilter' }
 
-{ #category : #'*Willow-Auth0-Demo' }
+{ #category : '*Willow-Auth0-Demo' }
 Auth0UniversalLoginAuthenticationFilter >> useHTTPTransport [
 
 	"This extension is only used for demo purposes so it can used locally

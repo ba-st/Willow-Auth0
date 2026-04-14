@@ -1,1 +1,1 @@
-Package { #name : #'Willow-Auth0-Demo' }
+Package { #name : 'Willow-Auth0-Demo' }

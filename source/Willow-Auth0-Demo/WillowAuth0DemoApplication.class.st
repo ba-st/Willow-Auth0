@@ -18,24 +18,25 @@ willow-auth0-demo - A demo web application using Auth0 Universal Login
 
 "
 Class {
-	#name : #WillowAuth0DemoApplication,
-	#superclass : #LaunchpadApplication,
+	#name : 'WillowAuth0DemoApplication',
+	#superclass : 'LaunchpadApplication',
 	#instVars : [
 		'stackTraceDumper'
 	],
 	#classInstVars : [
 		'version'
 	],
-	#category : #'Willow-Auth0-Demo'
+	#category : 'Willow-Auth0-Demo',
+	#package : 'Willow-Auth0-Demo'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0DemoApplication class >> commandName [
 
 	^ 'willow-auth0-demo'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0DemoApplication class >> configurationParameters [
 
 	^ { 
@@ -68,38 +69,38 @@ WillowAuth0DemoApplication class >> configurationParameters [
 			    inside: #( 'Auth0' ) ) asSensitive }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0DemoApplication class >> description [
 
 	^ 'A demo web application using Auth0 Universal Login'
 ]
 
-{ #category : #initialization }
+{ #category : 'class initialization' }
 WillowAuth0DemoApplication class >> initialize [
 
-	<ignoreForCoverage>
-	version := VersionFromRepositoryResolver new valueFor: #BaselineOfWillowAuth0
+  <ignoreForCoverage>
+  version := VersionFromRepositoryResolver new valueFor: 'Willow-Auth0'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 WillowAuth0DemoApplication class >> version [
 
 	^ version
 ]
 
-{ #category : #'private - activation/deactivation' }
+{ #category : 'private - activation/deactivation' }
 WillowAuth0DemoApplication >> basicStartWithin: context [
 
-	LaunchpadLogRecord emitInfo: 'Registering Willow Auth0 web application'.
-	WillowAuth0Demo registerAsDeployedApplication.
-	LaunchpadLogRecord emitInfo: 'Starting web server'.
-	( ZnZincServerAdaptor port: self configuration listeningPort )
-		codec: ( GRCodec forEncoding: 'utf8' );
-		start.
-	LaunchpadLogRecord emitInfo: 'Start up complete'
+  LogRecord emitInfo: 'Registering Willow Auth0 web application'.
+  WillowAuth0Demo registerAsDeployedApplication.
+  LogRecord emitInfo: 'Starting web server'.
+  ( ZnZincServerAdaptor port: self configuration listeningPort )
+    codec: ( GRCodec forEncoding: 'utf8' );
+    start.
+  LogRecord emitInfo: 'Start up complete'
 ]
 
-{ #category : #'private - activation/deactivation' }
+{ #category : 'private - activation/deactivation' }
 WillowAuth0DemoApplication >> basicStop [
 
 	ZnServer stopDefault.
@@ -108,7 +109,7 @@ WillowAuth0DemoApplication >> basicStop [
 	super basicStop
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 WillowAuth0DemoApplication >> initializeRunningIn: anApplicationMode configuredBy: aConfigurationProvider controlledBy: aCommandServer [
 
 	super
@@ -118,7 +119,7 @@ WillowAuth0DemoApplication >> initializeRunningIn: anApplicationMode configuredB
 	stackTraceDumper := self newStackTraceDumperOnStandardError
 ]
 
-{ #category : #'error handling' }
+{ #category : 'error handling' }
 WillowAuth0DemoApplication >> stackTraceDumper [
 
 	^ stackTraceDumper
